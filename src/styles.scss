@@ -1,1 +1,24 @@
 /* You can add global styles to this file, and also import other style files */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Estilos globais */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  @apply bg-gray-50;
+}
+
+/* Classes personalizadas */
+@layer components {
+  .btn-primary {
+    @apply bg-pecunia-dark-green text-white px-4 py-2 rounded-md hover:bg-pecunia-light-green transition-colors;
+  }
+  
+  .card {
+    @apply bg-white rounded-lg shadow-md p-4;
+  }
+}
