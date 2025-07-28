@@ -1,5 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
+@use '@angular/material' as mat;
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,6 +12,42 @@ html, body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   @apply bg-gray-50;
+}
+
+.mat-typography {
+  h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 500;
+  }
+}
+
+.mat-mdc-card {
+  margin-bottom: 20px;
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.mat-mdc-dialog-container {
+  .mat-mdc-dialog-surface {
+    padding: 0;
+  }
+}
+
+.mat-mdc-snack-bar-container {
+  &.success-snackbar {
+    --mdc-snackbar-container-color: #4CAF50;
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+  }
+
+  &.error-snackbar {
+    --mdc-snackbar-container-color: #F44336;
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+  }
 }
 
 /* Classes personalizadas */

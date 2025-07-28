@@ -1,22 +1,34 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { AuthResponse, LoginRequest, RegisterRequest, User } from '@models/user.model';
+import { environment } from '../../environments/environment';
+
+interface LoginResponse {
+  token: string;
+  user: {
+    id: number;
+    name: string;
+    email: string;
+  };
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly API_URL = 'http://localhost:8080/api/auth';
+  private readonly API_URL = `${environment.apiUrl}/auth`;
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
+  private authState$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     private http: HttpClient,
     private router: Router
   ) {
     this.loadUserFromStorage();
+    this.authState$.next(this.isAuthenticated());
   }
 
   private loadUserFromStorage(): void {
@@ -24,6 +36,14 @@ export class AuthService {
     if (user) {
       this.currentUserSubject.next(JSON.parse(user));
     }
+  }
+
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
   }
 
   register(registerData: RegisterRequest): Observable<AuthResponse> {
@@ -36,7 +56,10 @@ export class AuthService {
   login(loginData: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.API_URL}/login`, loginData)
       .pipe(
-        tap(response => this.handleAuthResponse(response))
+        tap(response => {
+          this.handleAuthResponse(response);
+          this.authState$.next(true);
+        })
       );
   }
 
@@ -44,6 +67,7 @@ export class AuthService {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     this.currentUserSubject.next(null);
+    this.authState$.next(false);
     this.router.navigate(['/login']);
   }
 
@@ -59,10 +83,15 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return !!this.currentUserSubject.value;
+    const token = localStorage.getItem('token');
+    return !!token;
   }
 
   getToken(): string | null {
     return localStorage.getItem('token');
+  }
+
+  getAuthState(): Observable<boolean> {
+    return this.authState$.asObservable();
   }
 } 

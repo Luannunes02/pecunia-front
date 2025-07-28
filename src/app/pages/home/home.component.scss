@@ -1,1 +1,56 @@
-// Estilos específicos do componente home 
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-down {
+  animation: fadeInDown 0.7s ease forwards;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.7s ease forwards;
+}
+
+.feature-card {
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover,
+  &:focus {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 30px rgba(16, 185, 129, 0.35);
+    outline: none;
+  }
+
+  .icon-wrapper svg {
+    transition: transform 0.3s ease;
+  }
+}
+
+section > div > div[tabindex] {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover,
+  &:focus {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 24px rgba(16, 185, 129, 0.25);
+    outline: none;
+  }
+}

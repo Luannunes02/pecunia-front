@@ -1,0 +1,25 @@
+.account-form {
+  min-width: 400px;
+}
+
+.form-group {
+  @apply relative;
+}
+
+input:focus, select:focus {
+  @apply outline-none;
+}
+
+.transition-all {
+  transition: all 0.3s ease;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
